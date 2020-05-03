@@ -7,15 +7,15 @@ red = (255, 52, 0)
 gameopen = True
 pos_x = screen[0]/2
 pos_y = screen[1]/2
-movedirs = 0   # Indices 0 => up ; 1 => dn ; 2 => lt ; 3 => rt
-moving = True
-speed = 10.0
+# movedirs = 0   # Indices 0 => up ; 1 => dn ; 2 => lt ; 3 => rt
+# moving = True
+speed = 1.0
 clock = pg.time.Clock()
 headpos = [pos_x, pos_y]
-player = [[pos_x, pos_y]]
+player = [headpos]
 loc_x = rd.randrange(0, screen[0], 10)
 loc_y = rd.randrange(0, screen[1], 10)
-food = pg.Rect(loc_x, loc_y, 16, 16)
+
 score = 0
 direction = 'UP'
 change_to = direction
@@ -29,9 +29,8 @@ def spawn(_food):
 
 
 def eaten(pl, f):
-    if pl[0][0] == f[0]:
-        if pl[0][1] == f[1]:
-            return True
+    if pl[0][0] == f[0] and pl[0][1] == f[1]:
+        return True
     return False
 
 
@@ -41,6 +40,7 @@ while gameopen:
     window = pg.display.set_mode(screen)
     hpiece = pg.Rect(headpos[0], headpos[1], 16, 16)
     # bpiece = pg.Rect(pos_x+16, pos_y+16, 16, 16)
+    food = pg.Rect(loc_x, loc_y, 16, 16)
 
     for ev in pg.event.get():
         if ev.type == pg.QUIT:
@@ -75,7 +75,7 @@ while gameopen:
         if direction == 'RIGHT':
             headpos[0] += speed
 
-        eatable = pg.draw.rect(window, red, food)
+        pg.draw.rect(window, red, food)
 
 
         # pg.draw.rect(window, white, [0, 0, 16, 16])
