@@ -21,11 +21,10 @@ direction = 'UP'
 change_to = direction
 
 
-def spawn(_food):
-    _food[0] = rd.randrange(0, screen[0], 10)
-    _food[1] = rd.randrange(0, screen[1], 10)
-    item = pg.draw.rect(window, red, _food)
-    return item
+def spawn():
+    _food = pg.rect(rd.randrange(0, screen[0], 10), rd.randrange(0, screen[1], 10), 16, 16)
+    #item = pg.Rect(window, red, _food)
+    return _food
 
 
 def eaten(pl, f):
@@ -33,6 +32,7 @@ def eaten(pl, f):
         return True
     return False
 
+food = pg.Rect(loc_x, loc_y, 16, 16)
 
 # --------------Game Loop
 while gameopen:
@@ -40,7 +40,7 @@ while gameopen:
     window = pg.display.set_mode(screen)
     hpiece = pg.Rect(headpos[0], headpos[1], 16, 16)
     # bpiece = pg.Rect(pos_x+16, pos_y+16, 16, 16)
-    food = pg.Rect(loc_x, loc_y, 16, 16)
+    pg.draw.rect(window, red, food)
 
     for ev in pg.event.get():
         if ev.type == pg.QUIT:
@@ -75,7 +75,7 @@ while gameopen:
         if direction == 'RIGHT':
             headpos[0] += speed
 
-        pg.draw.rect(window, red, food)
+    
 
 
         # pg.draw.rect(window, white, [0, 0, 16, 16])
@@ -124,16 +124,18 @@ while gameopen:
 
         if eaten(player, food):
             print("Food Eaten at " + str(food[0]) + ", " + str(food[1]))
-            spawn(food)
+            loc_x = rd.randrange(0, screen[0], 10)
+            loc_y = rd.randrange(0, screen[1], 10)
+            #food = pg.rect(rd.randrange(0, screen[0], 10), rd.randrange(0, screen[1], 10), 16, 16)
+            food = pg.Rect(loc_x, loc_y, 16, 16)
             score += 1
-            player.insert(0, list(headpos))
+            player.insert(-1, list(headpos))
 
         pg.display.flip()
         clock.tick(60)
 
 print(player)
+print(food)
 print(score)
-pg.quit()
-
 
 # TODO : create a dirn array for snake movement
