@@ -28,7 +28,7 @@ def spawn():
 
 
 def eaten(pl, f):
-    if pl[0][0] == f[0] and pl[0][1] == f[1]:
+    if pl[0] == f[0] and pl[1] == f[1]:
         return True
     return False
 
@@ -122,14 +122,14 @@ while gameopen:
         for hpos in player:
             pg.draw.rect(window, white, pg.Rect(hpos[0], hpos[1], 16, 16))
 
-        if eaten(player, food):
+        if eaten(player[score], food):
             print("Food Eaten at " + str(food[0]) + ", " + str(food[1]))
             loc_x = rd.randrange(0, screen[0], 10)
             loc_y = rd.randrange(0, screen[1], 10)
             #food = pg.rect(rd.randrange(0, screen[0], 10), rd.randrange(0, screen[1], 10), 16, 16)
             food = pg.Rect(loc_x, loc_y, 16, 16)
             score += 1
-            player.insert(-1, list(headpos))
+            player.insert(0, list(headpos))
 
         pg.display.flip()
         clock.tick(60)
